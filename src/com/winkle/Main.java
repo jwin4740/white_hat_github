@@ -6,9 +6,46 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 
 public class Main  {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
+    	Properties prop = new Properties();
+    	InputStream input = null;
+    	String userName = null;
+    	String passWord = null;
+
+    	try {
+
+    		input = new FileInputStream("config.properties");
+
+    		// load a properties file
+    		prop.load(input);
+
+    		// get the property value and print it out
+    		userName = prop.getProperty("username");
+    		passWord = prop.getProperty("password");
+    	
+
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+    	} finally {
+    		if (input != null) {
+    			try {
+    				input.close();
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
+    	}
+
+      
     
         // Notice that the remainder of the code relies on the interface, 
         // not the implementation.
@@ -16,34 +53,22 @@ public class Main  {
     	WebDriver driver = new ChromeDriver();
 
         // And now use this to visit Google
-        driver.get("http://www.google.com");
+        driver.get("https://github.com/login");
         // Alternatively the same thing can be done like this
         // driver.navigate().to("http://www.google.com");
-
+      
         // Find the text input element by its name
-        WebElement element = driver.findElement(By.name("q"));
+        WebElement uname = driver.findElement(By.id("login_field"));
+        WebElement pass = driver.findElement(By.id("password"));
+        WebElement submitBtn = driver.findElement(By.name("commit"));
 
         // Enter something to search for
-        element.sendKeys("Cheese!");
+        uname.sendKeys(userName);
+        pass.sendKeys(passWord);
+        submitBtn.click();
 
-        // Now submit the form. WebDriver will find the form for us from the element
-        element.submit();
-
-        // Check the title of the page
-        System.out.println("Page title is: " + driver.getTitle());
-        
-        // Google's search is rendered dynamically with JavaScript.
-        // Wait for the page to load, timeout after 10 seconds
-        (new WebDriverWait(driver, 10)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getTitle().toLowerCase().startsWith("cheese!");
-            }
-        });
-
-        // Should see: "cheese! - Google Search"
-        System.out.println("Page title is: " + driver.getTitle());
         
         //Close the browser
-        driver.quit();
+//        driver.quit();
     }
 }
