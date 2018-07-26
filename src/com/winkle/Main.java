@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLOutput;
+import java.util.HashMap;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -35,7 +36,8 @@ public class Main {
         driver.get(baseUrl + "jwin4740?tab=repositories");
         IRepoParserImpl l = new IRepoParserImpl();
         l.gatherRepoLinks(driver);
-        System.out.println(l.getRepos());
+        HashMap k = l.getRepos();
+
 
 
         // Close the browser
