@@ -11,12 +11,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLOutput;
 import java.util.Properties;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
 public class Main {
-    public static void main(String[] args) throws InterruptedException{
+    public static void main(String[] args) throws InterruptedException {
 
         IConfigLoaderImpl j = new IConfigLoaderImpl();
         j.setUsernameAndPassword();
@@ -31,8 +32,10 @@ public class Main {
         String baseUrl = "https://github.com/";
         // And now use this to visit Google
         login(driver, baseUrl, userName, passWord, js);
-
-        Thread.sleep(3000);
+        driver.get(baseUrl + "jwin4740?tab=repositories");
+        IRepoParserImpl l = new IRepoParserImpl();
+        l.gatherRepoLinks(driver);
+        System.out.println(l.getRepos());
 
 
         // Close the browser
@@ -56,7 +59,7 @@ public class Main {
         uname.sendKeys(userName);
         pass.sendKeys(passWord);
         submitBtn.click();
-        Thread.sleep(3000);
-        js.executeAsyncScript("window.alert('Hello World');");
+        Thread.sleep(1000);
+
     }
 }
