@@ -15,7 +15,9 @@ public class IRepoParserImpl implements IRepoParser {
         for (int i = 1; i < 2; i++) {
             WebElement j = driver.findElement(By.xpath("//*[@id=\"user-repositories-list\"]/ul/li[" + i + "]/div[1]/h3/a"));
             enterFile(driver, j);
-            this.repos.put(j.getText(), j.getAttribute("href"));
+            String repoName = j.getText();
+            System.out.println(repoName);
+            this.repos.put(repoName, j.getAttribute("href"));
         }
 
     }
