@@ -4,13 +4,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.File;
+import java.io.*;
 import java.util.ArrayList;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.util.Scanner;
 
 public class IConfigLoaderImpl implements IConfigLoader {
     private Properties prop = new Properties();
@@ -21,9 +19,22 @@ public class IConfigLoaderImpl implements IConfigLoader {
     private HashMap<String, String> props = new HashMap<>();
 
 
-    public ArrayList<String> grabUsersFromFile(File fileName) {
-        ArrayList<String> j = new ArrayList<String>();
-        return j;
+    public ArrayList<String> grabUsersFromFile() {
+
+
+        ArrayList<String> arr = new ArrayList<String>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("./users.txt"));
+            String sCurrentLine;
+
+            while ((sCurrentLine = br.readLine()) != null) {
+                arr.add(sCurrentLine);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return arr;
     }
 
     public WebDriver setDriverOptions() {

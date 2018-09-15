@@ -24,3 +24,5 @@ hs_err_pid*
 
 .idea/
 config.properties
+node/node_modules/*
+node_modules*
